@@ -1,8 +1,7 @@
-import { BadRequestException, Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param } from "@nestjs/common";
 import { AccountService } from "account/service";
 import { PostService } from "post/service";
-import { GetAccountPhotosDto } from "account/dto";
-import { isNull } from "lodash";
+import { GetAccountDto, GetAccountPhotosDto } from "account/dto";
 
 @Controller("account")
 export class AccountController {
@@ -11,14 +10,17 @@ export class AccountController {
 		private readonly postService: PostService
 	) {}
 
+	@Get(":username")
+	async get(@Param() { username }: GetAccountDto) {
+		const { id } = await this.accountService.getByUsername(username);
+
+		return { id, username };
+	}
+
 	@Get(":username/posts")
 	async getPosts(@Param() { username }: GetAccountPhotosDto) {
-		const account = await this.accountService.getByUsername(username);
+		const { id: accountId } = await this.accountService.getByUsername(username);
 
-		if (isNull(account)) {
-			throw new BadRequestException("Wrong username");
-		}
-
-		return this.postService.findAllByAccountId(account.id);
+		return this.postService.findAllByAccountId(accountId);
 	}
 }

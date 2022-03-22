@@ -4,5 +4,6 @@ module.exports = {
 		"no-empty-function": "off",
 		"no-useless-constructor": "off",
 		"class-methods-use-this": "off",
+		"max-classes-per-file": "off",
 	},
 };

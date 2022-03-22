@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/service";
 import { Account } from "@gallereee/db-client";
 import { isNull } from "lodash";
@@ -13,7 +13,7 @@ export class AccountService {
 		});
 
 		if (isNull(account)) {
-			throw new BadRequestException("Wrong username");
+			throw new NotFoundException("Wrong username");
 		}
 
 		return account;

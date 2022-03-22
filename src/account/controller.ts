@@ -1,9 +1,9 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { AccountService } from "account/service";
 import { PostService } from "post/service";
-import { GetAccountDto, GetAccountPhotosDto } from "account/dto";
+import { GetAccountRequestDto, GetAccountPhotosRequestDto } from "account/dto";
 
-@Controller("account")
+@Controller("accounts")
 export class AccountController {
 	constructor(
 		private readonly accountService: AccountService,
@@ -11,14 +11,14 @@ export class AccountController {
 	) {}
 
 	@Get(":username")
-	async get(@Param() { username }: GetAccountDto) {
+	async get(@Param() { username }: GetAccountRequestDto) {
 		const { id } = await this.accountService.getByUsername(username);
 
 		return { id, username };
 	}
 
 	@Get(":username/posts")
-	async getPosts(@Param() { username }: GetAccountPhotosDto) {
+	async getPosts(@Param() { username }: GetAccountPhotosRequestDto) {
 		const { id: accountId } = await this.accountService.getByUsername(username);
 
 		return this.postService.findAllByAccountId(accountId);

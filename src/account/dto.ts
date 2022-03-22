@@ -1,17 +1,18 @@
 import { IsString, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
-class GetAccountDto {
-	@IsString()
-	@MinLength(2)
-	@ApiProperty()
-	username: string;
-}
-class GetAccountPhotosDto {
+class GetAccountRequestDto {
 	@IsString()
 	@MinLength(2)
 	@ApiProperty()
 	username: string;
 }
 
-export { GetAccountDto, GetAccountPhotosDto };
+class GetAccountPhotosRequestDto {
+	@IsString()
+	@MinLength(2)
+	@ApiProperty()
+	username: string;
+}
+
+export { GetAccountRequestDto, GetAccountPhotosRequestDto };

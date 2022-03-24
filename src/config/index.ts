@@ -1,6 +1,6 @@
 export default () => {
 	const config = {
-		globalPrefix: "api/v1",
+		globalPrefix: "v1",
 		botAccessToken: process.env.BOT_ACCESS_TOKEN,
 		telegramBaseUrl: "https://api.telegram.org/",
 		telegramBotBaseUrl: "",

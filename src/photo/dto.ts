@@ -12,8 +12,4 @@ class GetPhotoByIdRequestDto {
 	id: Photo["id"];
 }
 
-class GetPhotoByIdResponseDto {
-	fileUrl: string;
-}
-
-export { GetPhotoByIdRequestDto, GetPhotoByIdResponseDto };
+export { GetPhotoByIdRequestDto };

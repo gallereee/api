@@ -27,7 +27,7 @@
     "test": "jest",
     "db": "npx prisma db",
     "db:generate": "npx prisma generate",
-		"db:migrate": "npx prisma migrate deploy",
+    "db:migrate": "npx prisma migrate deploy",
     "postinstall": "npm run db:generate"
   },
   "dependencies": {

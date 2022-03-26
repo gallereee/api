@@ -16,14 +16,10 @@ class GetAccountPhotosRequestDto {
 	username: string;
 }
 
-class GetAccountPhotosResponseDto {
+interface GetAccountPhotosResponseDto {
 	id: Post["id"];
-
 	coverPhotoId: Photo["id"];
 }
 
-export {
-	GetAccountRequestDto,
-	GetAccountPhotosRequestDto,
-	GetAccountPhotosResponseDto,
-};
+export { GetAccountRequestDto, GetAccountPhotosRequestDto };
+export type { GetAccountPhotosResponseDto };

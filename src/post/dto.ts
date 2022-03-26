@@ -1,23 +1,17 @@
-import { IsNumber } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
 import { Photo, Post } from "@gallereee/db-client";
+import { ApiProperty } from "@nestjs/swagger";
 
 class GetPostRequestDto {
-	@IsNumber()
-	@ApiProperty({
-		type: Number,
-	})
-	@Type(() => Number)
+	@ApiProperty({ type: String })
 	id: Post["id"];
 }
 
-type GetPostResponsePhoto = Pick<Photo, "id" | "createdAt" | "updatedAt">;
-
-class GetPostResponseDto {
+interface GetPostResponseDto {
 	id: Post["id"];
-
-	photos: GetPostResponsePhoto[];
+	createdAt: Post["createdAt"];
+	updatedAt: Post["updatedAt"];
+	photoIds: Photo["id"][];
 }
 
-export { GetPostRequestDto, GetPostResponseDto };
+export { GetPostRequestDto };
+export type { GetPostResponseDto };

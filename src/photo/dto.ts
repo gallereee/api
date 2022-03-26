@@ -1,14 +1,8 @@
-import { IsInt } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
 import { Photo } from "@gallereee/db-client";
-import { Type } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 
 class GetPhotoByIdRequestDto {
-	@IsInt()
-	@ApiProperty({
-		type: Number,
-	})
-	@Type(() => Number)
+	@ApiProperty({ type: String })
 	id: Photo["id"];
 }
 

@@ -17,11 +17,9 @@ export class PostController {
 
 		return {
 			id: post.id,
-			photos: post.photos.map(({ id: photoId, createdAt, updatedAt }) => ({
-				id: photoId,
-				createdAt,
-				updatedAt,
-			})),
+			createdAt: post.createdAt,
+			updatedAt: post.updatedAt,
+			photoIds: post.photos.map(({ id: photoId }) => photoId),
 		};
 	}
 }

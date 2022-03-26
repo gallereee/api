@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Account } from "@gallereee/db-client";
+import { Account, Post } from "@gallereee/db-client";
 import { PrismaService } from "prisma/service";
 
 @Injectable()
@@ -9,6 +9,14 @@ export class PostService {
 	async findAllByAccountId(id: Account["id"]) {
 		return this.prisma.post.findMany({
 			where: { accountId: id },
+			include: { photos: true },
+			orderBy: { createdAt: "desc" },
+		});
+	}
+
+	async get(id: Post["id"]) {
+		return this.prisma.post.findUnique({
+			where: { id },
 			include: { photos: true },
 		});
 	}

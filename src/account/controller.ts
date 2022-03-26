@@ -1,7 +1,11 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { AccountService } from "account/service";
 import { PostService } from "post/service";
-import { GetAccountRequestDto, GetAccountPhotosRequestDto } from "account/dto";
+import {
+	GetAccountRequestDto,
+	GetAccountPhotosRequestDto,
+	GetAccountPhotosResponseDto,
+} from "account/dto";
 
 @Controller("accounts")
 export class AccountController {
@@ -18,9 +22,16 @@ export class AccountController {
 	}
 
 	@Get(":username/posts")
-	async getPosts(@Param() { username }: GetAccountPhotosRequestDto) {
+	async getPosts(
+		@Param() { username }: GetAccountPhotosRequestDto
+	): Promise<GetAccountPhotosResponseDto[]> {
 		const { id: accountId } = await this.accountService.getByUsername(username);
 
-		return this.postService.findAllByAccountId(accountId);
+		const posts = await this.postService.findAllByAccountId(accountId);
+
+		return posts.map((post) => ({
+			id: post.id,
+			coverPhotoId: post.photos[0].id,
+		}));
 	}
 }

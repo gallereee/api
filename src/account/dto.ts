@@ -1,5 +1,6 @@
 import { IsString, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { Photo, Post } from "@gallereee/db-client";
 
 class GetAccountRequestDto {
 	@IsString()
@@ -15,4 +16,14 @@ class GetAccountPhotosRequestDto {
 	username: string;
 }
 
-export { GetAccountRequestDto, GetAccountPhotosRequestDto };
+class GetAccountPhotosResponseDto {
+	id: Post["id"];
+
+	coverPhotoId: Photo["id"];
+}
+
+export {
+	GetAccountRequestDto,
+	GetAccountPhotosRequestDto,
+	GetAccountPhotosResponseDto,
+};

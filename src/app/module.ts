@@ -4,10 +4,27 @@ import { AccountModule } from "account/module";
 import { PostModule } from "post/module";
 import { PhotoModule } from "photo/module";
 import { PhotoSizeModule } from "photoSize/module";
+import { WinstonModule } from "nest-winston";
+import * as winston from "winston";
 
 @Module({
 	imports: [
 		ConfigModule.forRoot(),
+		WinstonModule.forRoot({
+			level: "info",
+			format: winston.format.combine(
+				winston.format.timestamp(),
+				winston.format.json()
+			),
+			exitOnError: false,
+			transports: [
+				new winston.transports.File({
+					filename: "logs/error.log",
+					level: "error",
+				}),
+				new winston.transports.File({ filename: "logs/combined.log" }),
+			],
+		}),
 		AccountModule,
 		PostModule,
 		PhotoModule,

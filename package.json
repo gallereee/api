@@ -44,9 +44,11 @@
     "class-validator": "^0.13.2",
     "express": "^4.17.3",
     "lodash": "^4.17.21",
+    "nest-winston": "^1.6.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-ui-express": "^4.3.0",
+    "winston": "^3.6.0"
   },
   "devDependencies": {
     "@bd-dm/eslint-config-node": "^0.0.3",

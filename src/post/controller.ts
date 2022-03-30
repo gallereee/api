@@ -19,7 +19,12 @@ export class PostController {
 			id: post.id,
 			createdAt: post.createdAt,
 			updatedAt: post.updatedAt,
-			photoIds: post.photos.map(({ id: photoId }) => photoId),
+			photos: post.photos.map(({ id: photoId, photoSizes }) => {
+				const largestPhoto = photoSizes[photoSizes.length - 1];
+				const { width, height } = largestPhoto;
+
+				return { id: photoId, width, height };
+			}),
 		};
 	}
 }

@@ -17,7 +17,7 @@ export class PostService {
 	async get(id: Post["id"]) {
 		return this.prisma.post.findUnique({
 			where: { id },
-			include: { photos: true },
+			include: { photos: { include: { photoSizes: true } } },
 		});
 	}
 }

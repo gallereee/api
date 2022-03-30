@@ -6,11 +6,17 @@ class GetPostRequestDto {
 	id: Post["id"];
 }
 
+interface GetPostPhoto {
+	id: Photo["id"];
+	width: number;
+	height: number;
+}
+
 interface GetPostResponseDto {
 	id: Post["id"];
 	createdAt: Post["createdAt"];
 	updatedAt: Post["updatedAt"];
-	photoIds: Photo["id"][];
+	photos: GetPostPhoto[];
 }
 
 export { GetPostRequestDto };

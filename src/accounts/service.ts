@@ -4,7 +4,7 @@ import { Account } from "@gallereee/db-client";
 import { isNull } from "lodash";
 
 @Injectable()
-export class AccountService {
+export class AccountsService {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async getByUsername(username: Account["username"]) {

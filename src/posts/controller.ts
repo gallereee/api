@@ -1,11 +1,11 @@
 import { Controller, Get, NotFoundException, Param } from "@nestjs/common";
-import { PostService } from "post/service";
-import { GetPostRequestDto, GetPostResponseDto } from "post/dto";
+import { PostsService } from "posts/service";
+import { GetPostRequestDto, GetPostResponseDto } from "posts/dto";
 import { isNull } from "lodash";
 
 @Controller("posts")
-export class PostController {
-	constructor(private readonly postService: PostService) {}
+export class PostsController {
+	constructor(private readonly postService: PostsService) {}
 
 	@Get(":id")
 	async get(@Param() { id }: GetPostRequestDto): Promise<GetPostResponseDto> {

@@ -5,17 +5,17 @@ import {
 } from "@nestjs/common";
 import { Photo, PhotoSize } from "@gallereee/db-client";
 import { PrismaService } from "prisma/service";
-import { PhotoSizeService } from "photoSize/service";
+import { PhotoSizesService } from "photoSizes/service";
 import config from "config";
 import axios from "axios";
 import { TelegramGetFileResponse, TelegramResponse } from "types";
 import { isNull } from "lodash";
 
 @Injectable()
-export class PhotoService {
+export class PhotosService {
 	constructor(
 		private readonly prisma: PrismaService,
-		private readonly photoSizeService: PhotoSizeService
+		private readonly photoSizeService: PhotoSizesService
 	) {}
 
 	async createFilePath(fileId: PhotoSize["fileId"]) {

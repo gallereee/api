@@ -3,7 +3,7 @@ import { Account, Post } from "@gallereee/db-client";
 import { PrismaService } from "prisma/service";
 
 @Injectable()
-export class PostService {
+export class PostsService {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async findAllByAccountId(id: Account["id"]) {

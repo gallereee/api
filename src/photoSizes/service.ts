@@ -3,7 +3,7 @@ import { Photo } from "@gallereee/db-client";
 import { PrismaService } from "prisma/service";
 
 @Injectable()
-export class PhotoSizeService {
+export class PhotoSizesService {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async getLargestSizeForPhoto(photoId: Photo["id"]) {

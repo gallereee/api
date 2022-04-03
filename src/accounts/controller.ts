@@ -1,17 +1,17 @@
 import { Controller, Get, Param } from "@nestjs/common";
-import { AccountService } from "account/service";
-import { PostService } from "post/service";
+import { AccountsService } from "accounts/service";
+import { PostsService } from "posts/service";
 import {
 	GetAccountRequestDto,
 	GetAccountPhotosRequestDto,
 	GetAccountPhotosResponseDto,
-} from "account/dto";
+} from "accounts/dto";
 
 @Controller("accounts")
-export class AccountController {
+export class AccountsController {
 	constructor(
-		private readonly accountService: AccountService,
-		private readonly postService: PostService
+		private readonly accountService: AccountsService,
+		private readonly postService: PostsService
 	) {}
 
 	@Get(":username")

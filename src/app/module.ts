@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { AccountModule } from "account/module";
-import { PostModule } from "post/module";
-import { PhotoModule } from "photo/module";
-import { PhotoSizeModule } from "photoSize/module";
+import { AccountsModule } from "accounts/module";
+import { PostsModule } from "posts/module";
+import { PhotosModule } from "photos/module";
+import { PhotoSizesModule } from "photoSizes/module";
 import { WinstonModule } from "nest-winston";
 import * as winston from "winston";
 
@@ -25,10 +25,10 @@ import * as winston from "winston";
 				new winston.transports.File({ filename: "logs/combined.log" }),
 			],
 		}),
-		AccountModule,
-		PostModule,
-		PhotoModule,
-		PhotoSizeModule,
+		AccountsModule,
+		PostsModule,
+		PhotosModule,
+		PhotoSizesModule,
 	],
 })
 export class AppModule {}

@@ -1,15 +1,14 @@
 export default () => {
-	const config = {
+	return {
 		globalPrefix: "v1",
-		botAccessToken: process.env.BOT_ACCESS_TOKEN,
-		telegramBaseUrl: "https://api.telegram.org/",
-		telegramBotBaseUrl: "",
-		telegramBotFilesBaseUrl: "",
-		port: parseInt(process.env.PORT, 10),
+		port: parseInt(process.env.API_PORT, 10),
+		IAMService: {
+			host: process.env.IAM_HOST,
+			port: parseInt(process.env.IAM_PORT, 10),
+		},
+		PMSService: {
+			host: process.env.PMS_HOST,
+			port: parseInt(process.env.PMS_PORT, 10),
+		},
 	};
-
-	config.telegramBotBaseUrl = `${config.telegramBaseUrl}bot${config.botAccessToken}/`;
-	config.telegramBotFilesBaseUrl = `${config.telegramBaseUrl}file/bot${config.botAccessToken}/`;
-
-	return config;
 };

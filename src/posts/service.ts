@@ -1,23 +1,14 @@
+import { PMSService, Post } from "@gallereee/pms";
 import { Injectable } from "@nestjs/common";
-import { Account, Post } from "@gallereee/db-client";
-import { PrismaService } from "prisma/service";
 
 @Injectable()
 export class PostsService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(private readonly pmsService: PMSService) {}
 
-	async findAllByAccountId(id: Account["id"]) {
-		return this.prisma.post.findMany({
-			where: { accountId: id },
-			include: { photos: true },
-			orderBy: { createdAt: "desc" },
-		});
-	}
-
-	async get(id: Post["id"]) {
-		return this.prisma.post.findUnique({
-			where: { id },
-			include: { photos: { include: { photoSizes: true } } },
+	async get(id: Post["id"], requestId: string) {
+		return this.pmsService.getPost({
+			id,
+			requestId,
 		});
 	}
 }

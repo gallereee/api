@@ -1,55 +1,29 @@
-import {
-	BadRequestException,
-	Injectable,
-	NotFoundException,
-} from "@nestjs/common";
-import { Photo, PhotoSize } from "@gallereee/db-client";
-import { PrismaService } from "prisma/service";
-import { PhotoSizesService } from "photoSizes/service";
-import config from "config";
+import { Photo, PMSService } from "@gallereee/pms";
+import { Injectable, StreamableFile } from "@nestjs/common";
 import axios from "axios";
-import { TelegramGetFileResponse, TelegramResponse } from "types";
-import { isNull } from "lodash";
+import { Response } from "express";
 
 @Injectable()
 export class PhotosService {
-	constructor(
-		private readonly prisma: PrismaService,
-		private readonly photoSizeService: PhotoSizesService
-	) {}
+	constructor(private readonly pmsService: PMSService) {}
 
-	async createFilePath(fileId: PhotoSize["fileId"]) {
-		const URL = `${config().telegramBotBaseUrl}getFile?file_id=${fileId}`;
-		const { data: response } = await axios.get<
-			TelegramResponse<TelegramGetFileResponse>
-		>(URL);
+	async streamPhotoFile(
+		id: Photo["id"],
+		res: Response,
+		requestId: string
+	): Promise<StreamableFile> {
+		const fileUrl = await this.pmsService.getPhotoFileUrl({ id, requestId });
 
-		if (response.ok === false) {
-			throw new BadRequestException(response.description);
-		}
+		const fileResponse = await axios({
+			method: "get",
+			url: fileUrl,
+			responseType: "stream",
+		});
 
-		const {
-			result: { file_path: filePath },
-		} = response;
-
-		return filePath;
-	}
-
-	async getFileById(fileId: PhotoSize["fileId"]) {
-		const filePath = await this.createFilePath(fileId);
-
-		return `${config().telegramBotFilesBaseUrl}${filePath}`;
-	}
-
-	async getLargestPhotoFileUrl(photoId: Photo["id"]) {
-		const largestPhotoSize = await this.photoSizeService.getLargestSizeForPhoto(
-			photoId
+		Object.entries(fileResponse.headers).forEach(([key, value]) =>
+			res.set(key, value)
 		);
 
-		if (isNull(largestPhotoSize)) {
-			throw new NotFoundException("No such photo");
-		}
-
-		return this.getFileById(largestPhotoSize.fileId);
+		return new StreamableFile(fileResponse.data);
 	}
 }

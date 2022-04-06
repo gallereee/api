@@ -1,17 +1,17 @@
-import { Photo, Post } from "@gallereee/db-client";
+import { Photo, Post } from "@gallereee/pms";
 import { ApiProperty } from "@nestjs/swagger";
 
-class GetPostRequestDto {
-	@ApiProperty({ type: String })
-	id: Post["id"];
-}
+// GetPost
 
 interface GetPostPhoto {
 	id: Photo["id"];
 	width: number;
 	height: number;
 }
-
+class GetPostRequestDto {
+	@ApiProperty({ type: String })
+	id: Post["id"];
+}
 interface GetPostResponseDto {
 	id: Post["id"];
 	createdAt: Post["createdAt"];

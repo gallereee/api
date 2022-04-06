@@ -1,6 +1,9 @@
 import { IsString, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { Photo, Post } from "@gallereee/db-client";
+import { Post, Photo } from "@gallereee/pms";
+import { Account } from "@gallereee/iam";
+
+// GetAccount
 
 class GetAccountRequestDto {
 	@IsString()
@@ -8,18 +11,20 @@ class GetAccountRequestDto {
 	@ApiProperty()
 	username: string;
 }
+type GetAccountResponseDto = Pick<Account, "id" | "username">;
 
-class GetAccountPhotosRequestDto {
+// GetAccountPosts
+
+class GetAccountPostsRequestDto {
 	@IsString()
 	@MinLength(2)
 	@ApiProperty()
 	username: string;
 }
-
-interface GetAccountPhotosResponseDto {
+interface GetAccountPostsResponseDto {
 	id: Post["id"];
 	coverPhotoId: Photo["id"];
 }
 
-export { GetAccountRequestDto, GetAccountPhotosRequestDto };
-export type { GetAccountPhotosResponseDto };
+export { GetAccountRequestDto, GetAccountPostsRequestDto };
+export type { GetAccountResponseDto, GetAccountPostsResponseDto };

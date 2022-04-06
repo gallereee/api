@@ -1,4 +1,4 @@
-import { Photo } from "@gallereee/db-client";
+import { Photo } from "@gallereee/pms";
 import { ApiProperty } from "@nestjs/swagger";
 
 class GetPhotoByIdRequestDto {

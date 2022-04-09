@@ -18,7 +18,7 @@ export class PostsController {
 		@Request() { requestId },
 		@Param() { id }: GetPostRequestDto
 	): Promise<GetPostResponseDto> {
-		const post = await this.postService.get(id, requestId);
+		const post = await this.postService.getWithAccountAndPhotos(id, requestId);
 
 		if (isNull(post)) {
 			throw new NotFoundException("Wrong post id");
@@ -28,9 +28,13 @@ export class PostsController {
 			id: post.id,
 			createdAt: post.createdAt,
 			updatedAt: post.updatedAt,
-			photos: post.photos.map(({ id: photoid, width, height }) => {
-				return { id: photoid, width, height };
+			photos: post.photos.map(({ id: photoId, width, height }) => {
+				return { id: photoId, width, height };
 			}),
+			account: {
+				id: post.account.id,
+				username: post.account.username,
+			},
 		};
 	}
 }

@@ -3,6 +3,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Post, Photo } from "@gallereee/pms";
 import { Account } from "@gallereee/iam";
 
+type AccountInfo = Pick<Account, "id" | "username">;
+
 // GetAccount
 
 class GetAccountRequestDto {
@@ -11,7 +13,7 @@ class GetAccountRequestDto {
 	@ApiProperty()
 	username: string;
 }
-type GetAccountResponseDto = Pick<Account, "id" | "username">;
+type GetAccountResponseDto = AccountInfo;
 
 // GetAccountPosts
 
@@ -27,4 +29,4 @@ interface GetAccountPostsResponseDto {
 }
 
 export { GetAccountRequestDto, GetAccountPostsRequestDto };
-export type { GetAccountResponseDto, GetAccountPostsResponseDto };
+export type { AccountInfo, GetAccountResponseDto, GetAccountPostsResponseDto };

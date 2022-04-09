@@ -1,5 +1,6 @@
 import { Photo, Post } from "@gallereee/pms";
 import { ApiProperty } from "@nestjs/swagger";
+import { AccountInfo } from "accounts/dto";
 
 // GetPost
 
@@ -17,6 +18,7 @@ interface GetPostResponseDto {
 	createdAt: Post["createdAt"];
 	updatedAt: Post["updatedAt"];
 	photos: GetPostPhoto[];
+	account: AccountInfo;
 }
 
 export { GetPostRequestDto };

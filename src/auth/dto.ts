@@ -4,7 +4,7 @@ import { Account } from "@gallereee/iam";
 
 type JwtPayload = Pick<Account, "id" | "username">;
 
-class TelegramAuthFields {
+class TelegramSeamlessAuthFields {
 	@IsString()
 	@ApiProperty({ type: String })
 	id: string;
@@ -34,10 +34,40 @@ class TelegramAuthFields {
 	username: string;
 }
 
-class AuthTelegramRequestDto extends TelegramAuthFields {}
-class AuthTelegramResponseDto {
+class TelegramWebAppAuthFields {
+	@IsString()
+	@ApiProperty({ type: String })
+	query_id: string;
+
+	@IsString()
+	@ApiProperty({ type: String })
+	hash: string;
+
+	@IsString()
+	@ApiProperty({ type: String })
+	user: string;
+
+	@IsString()
+	@ApiProperty({ type: String })
+	auth_date: string;
+}
+
+class AuthTelegramSeamlessRequestDto extends TelegramSeamlessAuthFields {}
+class AuthTelegramSeamlessResponseDto {
+	accessToken: string;
+}
+
+class AuthTelegramWebAppRequestDto extends TelegramWebAppAuthFields {}
+class AuthTelegramWebAppResponseDto {
 	accessToken: string;
 }
 
 export type { JwtPayload };
-export { TelegramAuthFields, AuthTelegramResponseDto, AuthTelegramRequestDto };
+export {
+	TelegramSeamlessAuthFields,
+	TelegramWebAppAuthFields,
+	AuthTelegramSeamlessResponseDto,
+	AuthTelegramSeamlessRequestDto,
+	AuthTelegramWebAppRequestDto,
+	AuthTelegramWebAppResponseDto,
+};

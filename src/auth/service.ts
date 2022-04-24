@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { TelegramAuthFields } from "auth/dto";
+import { TelegramSeamlessAuthFields, TelegramWebAppAuthFields } from "auth/dto";
 import config from "config";
 import { Account, AccountProviderType, IAMService } from "@gallereee/iam";
 
@@ -7,9 +7,9 @@ import { Account, AccountProviderType, IAMService } from "@gallereee/iam";
 export class AuthService {
 	constructor(private readonly iamService: IAMService) {}
 
-	async validateTelegramAuth(
+	async validateTelegramSeamlessAuth(
 		requestId: string,
-		fields: TelegramAuthFields
+		fields: TelegramSeamlessAuthFields
 	): Promise<Account | null> {
 		const { createHmac, createHash } = await import("crypto");
 
@@ -38,6 +38,44 @@ export class AuthService {
 		return this.iamService.getByExternalId({
 			type: AccountProviderType.TELEGRAM_USER,
 			externalAccountId: fields.id,
+			requestId,
+		});
+	}
+
+	async validateTelegramWebAppAuth(
+		requestId: string,
+		fields: TelegramWebAppAuthFields
+	): Promise<Account | null> {
+		const { createHmac } = await import("crypto");
+
+		const fieldsKeys = Object.keys(fields);
+		const hashKeyIndex = fieldsKeys.indexOf("hash");
+		fieldsKeys.splice(hashKeyIndex, 1);
+
+		const dataCheckString = fieldsKeys
+			.sort()
+			.map((key) => `${key}=${fields[key]}`)
+			.join("\n");
+
+		const secretKey = createHmac("sha256", "WebAppData")
+			.update(config().botAccessToken)
+			.digest();
+
+		const hash = createHmac("sha256", secretKey)
+			.update(dataCheckString)
+			.digest("hex");
+
+		const isAuthorized = hash === fields.hash;
+		if (!isAuthorized) {
+			return null;
+		}
+
+		const userString = decodeURI(fields.user);
+		const user = JSON.parse(userString);
+
+		return this.iamService.getByExternalId({
+			type: AccountProviderType.TELEGRAM_USER,
+			externalAccountId: user.id,
 			requestId,
 		});
 	}

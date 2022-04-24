@@ -1,11 +1,20 @@
-import { Controller, Post, Body, Request } from "@nestjs/common";
+import {
+	Controller,
+	Post,
+	Body,
+	Request,
+	UnauthorizedException,
+} from "@nestjs/common";
 import { AuthService } from "auth/service";
 import {
-	AuthTelegramRequestDto,
-	AuthTelegramResponseDto,
+	AuthTelegramSeamlessRequestDto,
+	AuthTelegramSeamlessResponseDto,
+	AuthTelegramWebAppRequestDto,
+	AuthTelegramWebAppResponseDto,
 	JwtPayload,
 } from "auth/dto";
 import { JwtService } from "@nestjs/jwt";
+import { isNull } from "lodash";
 
 @Controller("auth")
 export class AuthController {
@@ -14,15 +23,47 @@ export class AuthController {
 		private readonly jwtService: JwtService
 	) {}
 
-	@Post("telegram")
-	async authTelegram(
+	@Post("telegram/seamless")
+	async authTelegramSeamless(
 		@Request() { requestId },
-		@Body() authFields: AuthTelegramRequestDto
-	): Promise<AuthTelegramResponseDto> {
-		const { id, username } = await this.authService.validateTelegramAuth(
+		@Body() authFields: AuthTelegramSeamlessRequestDto
+	): Promise<AuthTelegramSeamlessResponseDto> {
+		const account = await this.authService.validateTelegramSeamlessAuth(
 			requestId,
 			authFields
 		);
+
+		if (isNull(account)) {
+			throw new UnauthorizedException();
+		}
+
+		const { id, username } = account;
+
+		const payload: JwtPayload = {
+			id,
+			username,
+		};
+
+		return {
+			accessToken: this.jwtService.sign(payload),
+		};
+	}
+
+	@Post("telegram/web-app")
+	async authTelegramWebApp(
+		@Request() { requestId },
+		@Body() authFields: AuthTelegramWebAppRequestDto
+	): Promise<AuthTelegramWebAppResponseDto> {
+		const account = await this.authService.validateTelegramWebAppAuth(
+			requestId,
+			authFields
+		);
+
+		if (isNull(account)) {
+			throw new UnauthorizedException();
+		}
+
+		const { id, username } = account;
 
 		const payload: JwtPayload = {
 			id,

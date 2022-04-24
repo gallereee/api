@@ -36,7 +36,7 @@ class TelegramAuthFields {
 
 class AuthTelegramRequestDto extends TelegramAuthFields {}
 class AuthTelegramResponseDto {
-	access_token: string;
+	accessToken: string;
 }
 
 export type { JwtPayload };

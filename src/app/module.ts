@@ -9,6 +9,7 @@ import { IAMModule } from "@gallereee/iam";
 import config from "config";
 import * as winston from "winston";
 import { RequestMiddleware } from "middleware/request";
+import { AuthModule } from "auth/module";
 
 const WinstonModuleRoot = WinstonModule.forRoot({
 	level: "info",
@@ -45,6 +46,7 @@ const IAMModuleRoot = IAMModule.register({
 		AccountsModule,
 		PostsModule,
 		PhotosModule,
+		AuthModule,
 	],
 })
 export class AppModule {

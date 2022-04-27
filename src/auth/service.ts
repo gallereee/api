@@ -54,7 +54,7 @@ export class AuthService {
 
 		const dataCheckString = fieldsKeys
 			.sort()
-			.map((key) => `${key}=${fields[key]}`)
+			.map((key) => `${key}=${decodeURIComponent(fields[key])}`)
 			.join("\n");
 
 		const secretKey = createHmac("sha256", "WebAppData")
@@ -70,12 +70,12 @@ export class AuthService {
 			return null;
 		}
 
-		const userString = decodeURI(fields.user);
+		const userString = decodeURIComponent(fields.user);
 		const user = JSON.parse(userString);
 
 		return this.iamService.getByExternalId({
 			type: AccountProviderType.TELEGRAM_USER,
-			externalAccountId: user.id,
+			externalAccountId: user.id.toString(),
 			requestId,
 		});
 	}

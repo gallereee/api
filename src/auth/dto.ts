@@ -55,11 +55,15 @@ class TelegramWebAppAuthFields {
 class AuthTelegramSeamlessRequestDto extends TelegramSeamlessAuthFields {}
 class AuthTelegramSeamlessResponseDto {
 	accessToken: string;
+
+	accountUsername: Account["username"];
 }
 
 class AuthTelegramWebAppRequestDto extends TelegramWebAppAuthFields {}
 class AuthTelegramWebAppResponseDto {
 	accessToken: string;
+
+	accountUsername: Account["username"];
 }
 
 export type { JwtPayload };

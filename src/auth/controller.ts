@@ -46,6 +46,7 @@ export class AuthController {
 
 		return {
 			accessToken: this.jwtService.sign(payload),
+			accountUsername: account.username,
 		};
 	}
 
@@ -72,6 +73,7 @@ export class AuthController {
 
 		return {
 			accessToken: this.jwtService.sign(payload),
+			accountUsername: account.username,
 		};
 	}
 }

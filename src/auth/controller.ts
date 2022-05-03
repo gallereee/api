@@ -4,9 +4,12 @@ import {
 	Body,
 	Request,
 	UnauthorizedException,
+	NotFoundException,
 } from "@nestjs/common";
 import { AuthService } from "auth/service";
 import {
+	AuthDevRequestDto,
+	AuthDevResponseDto,
 	AuthTelegramSeamlessRequestDto,
 	AuthTelegramSeamlessResponseDto,
 	AuthTelegramWebAppRequestDto,
@@ -15,6 +18,7 @@ import {
 } from "auth/dto";
 import { JwtService } from "@nestjs/jwt";
 import { isNull } from "lodash";
+import config from "config";
 
 @Controller("auth")
 export class AuthController {
@@ -74,6 +78,20 @@ export class AuthController {
 		return {
 			accessToken: this.jwtService.sign(payload),
 			accountUsername: account.username,
+		};
+	}
+
+	@Post("dev")
+	async authDev(
+		@Body() { id, username }: AuthDevRequestDto
+	): Promise<AuthDevResponseDto> {
+		if (!config().isDev) {
+			throw new NotFoundException();
+		}
+
+		return {
+			accessToken: this.jwtService.sign({ id, username }),
+			accountUsername: username,
 		};
 	}
 }

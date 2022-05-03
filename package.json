@@ -24,8 +24,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@gallereee/iam": "^0.0.7",
-    "@gallereee/pms": "^0.0.6",
+    "@gallereee/iam": "^1.0.0",
+    "@gallereee/pms": "^1.0.2",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.0.0",

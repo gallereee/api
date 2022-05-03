@@ -1,13 +1,22 @@
 import {
 	Controller,
+	Delete,
 	Get,
 	NotFoundException,
 	Param,
 	Request,
+	UseGuards,
 } from "@nestjs/common";
 import { PostsService } from "posts/service";
-import { GetPostRequestDto, GetPostResponseDto } from "posts/dto";
+import {
+	DeletePostRequestDto,
+	DeletePostResponseDto,
+	GetPostRequestDto,
+	GetPostResponseDto,
+} from "posts/dto";
 import { isNull } from "lodash";
+import { JwtAuthGuard } from "auth/guards/jwt.guard";
+import { ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("posts")
 export class PostsController {
@@ -36,5 +45,15 @@ export class PostsController {
 				username: post.account.username,
 			},
 		};
+	}
+
+	@Delete(":id")
+	@UseGuards(JwtAuthGuard)
+	@ApiBearerAuth()
+	async delete(
+		@Request() { requestId, user },
+		@Param() { id }: DeletePostRequestDto
+	): Promise<DeletePostResponseDto> {
+		return this.postService.deletePost(id, user.id, requestId);
 	}
 }

@@ -9,10 +9,12 @@ interface GetPostPhoto {
 	width: number;
 	height: number;
 }
+
 class GetPostRequestDto {
 	@ApiProperty({ type: String })
 	id: Post["id"];
 }
+
 interface GetPostResponseDto {
 	id: Post["id"];
 	createdAt: Post["createdAt"];
@@ -21,5 +23,14 @@ interface GetPostResponseDto {
 	account: AccountInfo;
 }
 
-export { GetPostRequestDto };
-export type { GetPostResponseDto };
+// DeletePost
+
+class DeletePostRequestDto {
+	@ApiProperty({ type: String })
+	id: Post["id"];
+}
+
+type DeletePostResponseDto = void;
+
+export { GetPostRequestDto, DeletePostRequestDto };
+export type { GetPostResponseDto, DeletePostResponseDto };

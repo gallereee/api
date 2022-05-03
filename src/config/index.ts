@@ -1,6 +1,7 @@
 export default () => {
 	return {
 		globalPrefix: "v1",
+		isDev: process.env.NODE_ENV === "development",
 		port: parseInt(process.env.API_PORT, 10),
 		botAccessToken: process.env.BOT_ACCESS_TOKEN,
 		jwtSecret: process.env.JWT_SECRET,

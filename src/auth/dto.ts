@@ -52,6 +52,16 @@ class TelegramWebAppAuthFields {
 	auth_date: string;
 }
 
+class DevAuthFields {
+	@IsString()
+	@ApiProperty({ type: String })
+	id: string;
+
+	@IsString()
+	@ApiProperty({ type: String })
+	username: string;
+}
+
 class AuthTelegramSeamlessRequestDto extends TelegramSeamlessAuthFields {}
 class AuthTelegramSeamlessResponseDto {
 	accessToken: string;
@@ -66,6 +76,13 @@ class AuthTelegramWebAppResponseDto {
 	accountUsername: Account["username"];
 }
 
+class AuthDevRequestDto extends DevAuthFields {}
+class AuthDevResponseDto {
+	accessToken: string;
+
+	accountUsername: Account["username"];
+}
+
 export type { JwtPayload };
 export {
 	TelegramSeamlessAuthFields,
@@ -74,4 +91,6 @@ export {
 	AuthTelegramSeamlessRequestDto,
 	AuthTelegramWebAppRequestDto,
 	AuthTelegramWebAppResponseDto,
+	AuthDevRequestDto,
+	AuthDevResponseDto,
 };

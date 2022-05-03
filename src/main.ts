@@ -15,11 +15,8 @@ async function bootstrap() {
 	const swaggerConfig = new DocumentBuilder()
 		.setTitle("Galleree")
 		.setDescription("API for Galleree")
-		.setVersion(process.version)
-		.addSecurity("bearer", {
-			type: "http",
-			scheme: "bearer",
-		})
+		.setVersion(process.env.npm_package_version)
+		.addBearerAuth()
 		.build();
 	const document = SwaggerModule.createDocument(app, swaggerConfig);
 	SwaggerModule.setup(`${config().globalPrefix}/spec`, app, document);

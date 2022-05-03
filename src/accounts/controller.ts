@@ -46,6 +46,10 @@ export class AccountsController {
 			requestId
 		);
 
+		if (isNull(account)) {
+			throw new NotFoundException("Wrong username");
+		}
+
 		return this.accountService.getPosts(account.id, requestId);
 	}
 }

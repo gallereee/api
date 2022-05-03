@@ -1,6 +1,11 @@
 import { Photo, PMSService, Post } from "@gallereee/pms";
-import { Injectable } from "@nestjs/common";
+import {
+	ForbiddenException,
+	Injectable,
+	NotFoundException,
+} from "@nestjs/common";
 import { Account, IAMService } from "@gallereee/iam";
+import { isNull } from "lodash";
 
 @Injectable()
 export class PostsService {
@@ -24,5 +29,26 @@ export class PostsService {
 		});
 
 		return { ...post, account };
+	}
+
+	async deletePost(
+		id: Post["id"],
+		accountId: Account["id"],
+		requestId: string
+	): Promise<null> {
+		const post = await this.pmsService.getPost({
+			id,
+			requestId,
+		});
+
+		if (isNull(post)) {
+			throw new NotFoundException();
+		}
+
+		if (post.accountId !== accountId) {
+			throw new ForbiddenException();
+		}
+
+		return this.pmsService.deletePost({ id, requestId });
 	}
 }
